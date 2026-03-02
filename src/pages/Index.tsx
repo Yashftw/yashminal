@@ -1,16 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
+import VideoIntro from "@/components/VideoIntro";
 import BootScreen from "@/components/BootScreen";
 import CRTOverlay from "@/components/CRTOverlay";
 import PanelWrapper from "@/components/PanelWrapper";
 import ProjectArchive from "@/components/ProjectArchive";
 import SkillMatrix from "@/components/SkillMatrix";
 import ExternalLinkDialog from "@/components/ExternalLinkDialog";
-import ThemeToggle from "@/components/ThemeToggle";
 import MusicPlayer from "@/components/MusicPlayer";
 import BackgroundParticles from "@/components/BackgroundParticles";
 import ScrollReveal from "@/components/ScrollReveal";
 import BioPanel from "@/components/BioPanel";
-import DigitalCreature from "@/components/DigitalCreature";
 
 const systemStatuses = [
   { name: "EDGE COMPUTING", status: "ACTIVE" },
@@ -27,238 +26,151 @@ const techSkills = [
   "KUBERNETES", "SPARK STREAMING", "MQTT", "CASSANDRA", "AWS"
 ];
 
+type Phase = "video" | "boot" | "dashboard";
+
 const Index = () => {
-  const [booted, setBooted] = useState(false);
-  const [activeCreatures, setActiveCreatures] = useState<Record<string, boolean>>({
-    system: false,
-    projects: false,
-    capability: false,
-    skills: false,
-  });
+  const [phase, setPhase] = useState<Phase>("video");
+
+  // Force dark mode
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
 
   // Random screen glitch
   useEffect(() => {
-    if (!booted) return;
+    if (phase !== "dashboard") return;
     const triggerGlitch = () => {
       const el = document.getElementById("main-dashboard");
       if (el) {
         el.classList.add("screen-glitch");
         setTimeout(() => el.classList.remove("screen-glitch"), 150);
       }
-      const next = 20000 + Math.random() * 20000;
+      const next = 25000 + Math.random() * 15000;
       setTimeout(triggerGlitch, next);
     };
     const timeout = setTimeout(triggerGlitch, 15000);
     return () => clearTimeout(timeout);
-  }, [booted]);
+  }, [phase]);
 
-  const toggleCreature = useCallback((key: string) => {
-    setActiveCreatures((prev) => ({ ...prev, [key]: !prev[key] }));
-  }, []);
+  if (phase === "video") {
+    return <VideoIntro onComplete={() => setPhase("boot")} />;
+  }
 
-  if (!booted) {
-    return <BootScreen onComplete={() => setBooted(true)} />;
+  if (phase === "boot") {
+    return <BootScreen onComplete={() => setPhase("dashboard")} />;
   }
 
   return (
-    <div className="min-h-screen bg-background crt-flicker relative">
+    <div className="min-h-screen bg-background crt-flicker crt-screen relative">
       <BackgroundParticles />
       <CRTOverlay />
 
-      {/* Fixed top-right controls */}
-      <div className="fixed top-3 right-3 z-50 flex items-center gap-2">
+      {/* Music player */}
+      <div className="fixed top-4 right-4 z-50">
         <MusicPlayer />
-        <ThemeToggle />
       </div>
 
-      <div className="fixed inset-0 bg-radial-glow bg-parchment pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none z-0" />
 
-      <div id="main-dashboard" className="relative z-10 max-w-6xl mx-auto px-3 py-4 space-y-3 pt-16">
-        {/* BOOT STATUS STRIP */}
+      <div id="main-dashboard" className="relative z-10 max-w-4xl mx-auto px-4 py-6 space-y-4 pt-20">
+
+        {/* STATUS STRIP */}
         <ScrollReveal>
-          <div className="border-2 border-border bg-accent px-4 py-2 flex items-center justify-between panel-glow hover-shimmer">
-            <div className="flex items-center gap-3">
-              <span className="text-primary font-pixel text-[10px] tracking-wider">◤ CRIMSON ARCHIVE v5.0</span>
-              <span className="text-muted-foreground font-terminal text-sm">|</span>
-              <span className="font-terminal text-sm text-foreground">SYSTEM ONLINE</span>
-            </div>
+          <div className="border-2 border-border bg-accent px-4 py-2 flex items-center justify-between panel-glow">
+            <span className="font-pixel text-[10px] tracking-wider text-primary">CRIMSON ARCHIVE v5.0</span>
             <div className="flex items-center gap-4">
-              <span className="font-terminal text-xs text-muted-foreground hidden sm:inline">
+              <span className="font-terminal text-xs text-muted-foreground">
                 SIGNAL: <span className="text-primary status-dot inline-block">●</span> UNSTABLE
               </span>
-              <div className="flex gap-2">
-                <ExternalLinkDialog href="https://github.com/yasftw">
-                  <span className="font-terminal text-xs hover:text-primary">[GITHUB]</span>
-                </ExternalLinkDialog>
-                <ExternalLinkDialog href="https://linkedin.com/in/yasftw">
-                  <span className="font-terminal text-xs hover:text-primary">[LINKEDIN]</span>
-                </ExternalLinkDialog>
-              </div>
             </div>
           </div>
         </ScrollReveal>
 
-        {/* ROW 1: BIO + SYSTEM STATUS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <ScrollReveal delay={100}>
-            <BioPanel />
-          </ScrollReveal>
-
-          <ScrollReveal delay={200}>
-            <div onClick={() => toggleCreature("system")} className="interactive">
-              <PanelWrapper title="SYSTEM STATUS" icon={<span>⚙</span>}>
-                <div className="space-y-3">
-                  {/* Creature */}
-                  <div className="flex justify-end">
-                    <DigitalCreature type="owl" active={activeCreatures.system} />
-                  </div>
-                  {systemStatuses.map((item, i) => (
-                    <div
-                      key={item.name}
-                      className="stagger-item flex items-center justify-between border border-border bg-background px-3 py-2 hover-shimmer"
-                      style={{ animationDelay: `${i * 80}ms` }}
-                    >
-                      <span className="font-terminal text-sm text-foreground">{item.name}</span>
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`font-terminal text-xs ${
-                            activeStatuses.includes(item.status) ? "text-primary" : "text-muted-foreground"
-                          }`}
-                        >
-                          {item.status}
-                        </span>
-                        {activeStatuses.includes(item.status) && (
-                          <span className="inline-block w-2 h-2 rounded-full bg-primary status-dot" />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </PanelWrapper>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* ROW 2: PROJECTS + CAPABILITY */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <ScrollReveal delay={100}>
-            <div onClick={() => toggleCreature("projects")} className="interactive">
-              <div className="relative">
-                <div className="absolute top-14 right-4 z-20">
-                  <DigitalCreature type="fox" active={activeCreatures.projects} />
-                </div>
-                <ProjectArchive />
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={200}>
-            <div onClick={() => toggleCreature("capability")} className="interactive">
-              <PanelWrapper title="CAPABILITY MATRIX" icon={<span>📊</span>}>
-                <div className="flex justify-end mb-2">
-                  <DigitalCreature type="serpent" active={activeCreatures.capability} />
-                </div>
-                <div className="space-y-3 font-terminal text-sm">
-                  <div className="border border-border bg-background p-3 hover-shimmer">
-                    <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">PRIMARY FOCUS</div>
-                    <div className="text-foreground">DISTRIBUTED SYSTEMS & EDGE ARCHITECTURE</div>
-                  </div>
-                  <div className="border border-border bg-background p-3 hover-shimmer">
-                    <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">CURRENT OBJECTIVE</div>
-                    <div className="text-foreground">MASTERING KUBERNETES ORCHESTRATION & FEDERATED LEARNING PIPELINES</div>
-                  </div>
-                  <div className="border border-border bg-background p-3 hover-shimmer">
-                    <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">3-MONTH TARGET</div>
-                    <div className="text-primary">FULL-STACK SYSTEMS PROFICIENCY — ALL DOMAINS ≥ 80%</div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 mt-2">
-                    {["MQTT", "CASSANDRA", "SPARK"].map((tech) => (
-                      <div key={tech} className="border border-border bg-accent text-center py-1.5 hover-shimmer">
-                        <span className="font-pixel text-[8px] text-foreground tracking-wider">{tech}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </PanelWrapper>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* ROW 3: SKILLS + PHILOSOPHY */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <ScrollReveal delay={100}>
-            <div onClick={() => toggleCreature("skills")} className="interactive">
-              <div className="relative">
-                <div className="absolute top-14 right-4 z-20">
-                  <DigitalCreature type="crow" active={activeCreatures.skills} />
-                </div>
-                <SkillMatrix />
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={200}>
-            <PanelWrapper title="PERSONAL PHILOSOPHY" icon={<span>🔮</span>}>
-              <div className="flex gap-2 mb-3">
-                {["♥", "♥", "♥", "◆", "◆"].map((icon, i) => (
-                  <span key={i} className="text-xs text-muted-foreground">{icon}</span>
-                ))}
-              </div>
-              <blockquote className="font-terminal text-base text-foreground leading-relaxed border-l-2 border-primary pl-4">
-                "A SYSTEM FILLED WITH PRETENDERS
-                <br />
-                IS STILL EMPTY IN THE EYES OF ARCHITECTURE."
-              </blockquote>
-              <div className="mt-4 font-terminal text-xs text-muted-foreground">
-                — CRIMSON DOCTRINE, VERSE 7
-              </div>
-              <div className="mt-4 border-t border-border pt-3">
-                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-2">SKILL DIAGNOSTICS</div>
-                <div className="flex flex-wrap gap-2">
-                  {techSkills.map((tech, i) => (
-                    <span
-                      key={tech}
-                      className="stagger-item border border-border bg-background px-2 py-1 font-terminal text-xs text-foreground hover-shimmer"
-                      style={{ animationDelay: `${i * 60}ms` }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </PanelWrapper>
-          </ScrollReveal>
-        </div>
-
-        {/* ROW 4: TRANSMISSION TERMINAL */}
+        {/* BIO */}
         <ScrollReveal delay={100}>
-          <PanelWrapper title="TRANSMISSION TERMINAL" icon={<span>📡</span>}>
-            <div className="font-terminal text-sm space-y-2">
-              <div className="text-muted-foreground">
-                ▸ OUTBOUND CHANNELS:
+          <BioPanel />
+        </ScrollReveal>
+
+        {/* SYSTEM STATUS */}
+        <ScrollReveal delay={150}>
+          <PanelWrapper title="SYSTEM STATUS">
+            <div className="space-y-3">
+              {systemStatuses.map((item, i) => (
+                <div
+                  key={item.name}
+                  className="stagger-item flex items-center justify-between border border-border bg-background px-3 py-2 hover-shimmer"
+                  style={{ animationDelay: `${i * 80}ms` }}
+                >
+                  <span className="font-terminal text-sm text-foreground">{item.name}</span>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`font-terminal text-xs ${
+                        activeStatuses.includes(item.status) ? "text-primary" : "text-muted-foreground"
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                    {activeStatuses.includes(item.status) && (
+                      <span className="inline-block w-2 h-2 rounded-full bg-primary status-dot" />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </PanelWrapper>
+        </ScrollReveal>
+
+        {/* PROJECT ARCHIVE */}
+        <ScrollReveal delay={150}>
+          <ProjectArchive />
+        </ScrollReveal>
+
+        {/* CAPABILITY MATRIX */}
+        <ScrollReveal delay={150}>
+          <PanelWrapper title="CAPABILITY MATRIX">
+            <div className="space-y-3 font-terminal text-sm">
+              <div className="border border-border bg-background p-3 hover-shimmer">
+                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">PRIMARY FOCUS</div>
+                <div className="text-foreground">DISTRIBUTED SYSTEMS & EDGE ARCHITECTURE</div>
               </div>
+              <div className="border border-border bg-background p-3 hover-shimmer">
+                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">CURRENT OBJECTIVE</div>
+                <div className="text-foreground">MASTERING KUBERNETES ORCHESTRATION & FEDERATED LEARNING PIPELINES</div>
+              </div>
+              <div className="border border-border bg-background p-3 hover-shimmer">
+                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">3-MONTH TARGET</div>
+                <div className="text-primary">FULL-STACK SYSTEMS PROFICIENCY — ALL DOMAINS ≥ 80%</div>
+              </div>
+            </div>
+          </PanelWrapper>
+        </ScrollReveal>
+
+        {/* SKILL DIAGNOSTICS */}
+        <ScrollReveal delay={150}>
+          <SkillMatrix />
+        </ScrollReveal>
+
+        {/* TRANSMISSION TERMINAL */}
+        <ScrollReveal delay={150}>
+          <PanelWrapper title="TRANSMISSION TERMINAL">
+            <div className="font-terminal text-sm space-y-2">
+              <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <ExternalLinkDialog href="https://github.com/yasftw">
                   <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
-                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">
-                      GITHUB
-                    </div>
+                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
                     <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
                   </div>
                 </ExternalLinkDialog>
                 <ExternalLinkDialog href="https://linkedin.com/in/yasftw">
                   <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
-                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">
-                      LINKEDIN
-                    </div>
+                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">LINKEDIN</div>
                     <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
                   </div>
                 </ExternalLinkDialog>
                 <ExternalLinkDialog href="#">
                   <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
-                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">
-                      RESUME
-                    </div>
+                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
                     <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
                   </div>
                 </ExternalLinkDialog>
@@ -271,7 +183,7 @@ const Index = () => {
         </ScrollReveal>
 
         {/* Footer */}
-        <div className="text-center py-3 font-terminal text-xs text-muted-foreground border-t border-border">
+        <div className="text-center py-4 font-terminal text-xs text-muted-foreground border-t border-border">
           CRIMSON ARCHIVE © 2026 — YASFTW — ALL SYSTEMS MONITORED
         </div>
       </div>

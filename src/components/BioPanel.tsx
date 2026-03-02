@@ -27,9 +27,9 @@ const BioPanel = () => {
   const dialogText: Record<FaceState, string> = {
     neutral: "",
     asking: "Hey Yashraj… how have you been?",
-    waiting: "Wait. I asked you something.",
-    annoyed: "Answer me first.",
-    happy: "Good. Now you may proceed.",
+    waiting: "Wait… answer me first.",
+    annoyed: "I'm not letting you leave without a reply.",
+    happy: "Good. Now go build.",
   };
 
   const handleActivate = useCallback(() => {
@@ -42,7 +42,6 @@ const BioPanel = () => {
     }
   }, [activated, answered]);
 
-  // Scroll lock logic
   useEffect(() => {
     if (!scrollLocked) return;
     const handleScroll = (e: WheelEvent) => {
@@ -50,15 +49,10 @@ const BioPanel = () => {
         e.preventDefault();
         setScrollAttempts((prev) => {
           const next = prev + 1;
-          if (next >= 3 && faceState === "asking") {
-            setFaceState("waiting");
-          }
-          if (next >= 6 && faceState !== "annoyed") {
-            setFaceState("annoyed");
-          }
+          if (next >= 3 && faceState === "asking") setFaceState("waiting");
+          if (next >= 6 && faceState !== "annoyed") setFaceState("annoyed");
           return next;
         });
-        // Magnetic pull effect
         panelRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     };
@@ -70,9 +64,7 @@ const BioPanel = () => {
     if (!userInput.trim()) return;
     setFaceState("happy");
     setAnswered(true);
-    setTimeout(() => {
-      setScrollLocked(false);
-    }, 1500);
+    setTimeout(() => setScrollLocked(false), 1500);
   };
 
   const handleProfileHover = () => {
@@ -83,12 +75,8 @@ const BioPanel = () => {
 
   return (
     <div ref={panelRef}>
-      <PanelWrapper title="BIO" icon={<span>🧠</span>}>
-        <div
-          className="relative min-h-[200px] interactive"
-          onClick={handleActivate}
-        >
-          {/* Bio content */}
+      <PanelWrapper title="BIO">
+        <div className="relative min-h-[200px] interactive" onClick={handleActivate}>
           <div className="space-y-2 font-terminal text-sm">
             <div>
               <span className="text-muted-foreground">NAME: </span>
@@ -114,10 +102,9 @@ const BioPanel = () => {
             </div>
           </div>
 
-          {/* Profile picture with connection line */}
+          {/* Profile picture */}
           {showProfile && (
             <div className="absolute top-0 right-0 flicker-in z-20">
-              {/* Connection line */}
               <div className="absolute -left-16 top-12 w-16 h-[2px] overflow-hidden">
                 <div className="w-full h-full bg-primary connection-line" />
                 <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-primary status-dot" style={{ animationDuration: "0.8s" }} />
@@ -130,23 +117,19 @@ const BioPanel = () => {
                   src={profileImg}
                   alt="Yashraj Yadav"
                   className={`w-24 h-24 object-cover ${profileGlitch ? "rgb-glitch" : ""}`}
-                  style={{ imageRendering: "auto" }}
                 />
               </div>
             </div>
           )}
 
-          {/* Character face and interaction */}
+          {/* Character interaction */}
           {activated && (
             <div className="mt-4 border-t border-border pt-4 flicker-in">
-              {/* Face */}
               <div className={`text-center mb-3 transition-all duration-300 ${faceState === "annoyed" ? "text-primary animate-pulse" : ""}`}>
                 <div className="font-terminal text-3xl text-primary creature-idle">
                   {faceExpressions[faceState]}
                 </div>
               </div>
-
-              {/* Speech bubble */}
               {dialogText[faceState] && (
                 <div className="relative border border-border bg-accent p-3 mb-3 mx-4">
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-accent border-l border-t border-border rotate-45" />
@@ -155,8 +138,6 @@ const BioPanel = () => {
                   </p>
                 </div>
               )}
-
-              {/* Input field */}
               {!answered && (
                 <div className="flex gap-2 mx-4">
                   <input
@@ -176,8 +157,6 @@ const BioPanel = () => {
                   </button>
                 </div>
               )}
-
-              {/* Happy state - glow effect */}
               {answered && faceState === "happy" && (
                 <div className="text-center font-terminal text-xs text-muted-foreground mt-2">
                   ▸ SCROLL UNLOCKED
@@ -186,7 +165,6 @@ const BioPanel = () => {
             </div>
           )}
 
-          {/* Click hint */}
           {!activated && !answered && (
             <div className="mt-4 text-center font-pixel text-[8px] text-muted-foreground tracking-wider animate-pulse">
               [ CLICK TO INTERACT ]

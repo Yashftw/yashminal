@@ -53,7 +53,7 @@ const SkillMatrix = () => {
 
   return (
     <div ref={ref}>
-      <PanelWrapper title="SKILL MATRIX — CAPABILITY INDEX">
+      <PanelWrapper title="SKILL DIAGNOSTICS">
         <div className="space-y-2">
           {skills.map((skill) => (
             <SkillBar key={skill.name} skill={skill} animate={visible} />

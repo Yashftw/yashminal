@@ -57,7 +57,7 @@ const ProjectArchive = () => {
 
   return (
     <>
-      <PanelWrapper title="ARCHIVED PROTOCOLS">
+      <PanelWrapper title="PROJECT ARCHIVE">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {projects.map((project) => (
             <button
@@ -79,15 +79,15 @@ const ProjectArchive = () => {
         </div>
       </PanelWrapper>
 
-      {/* Popup */}
+      {/* Popup modal */}
       {selected && (
-        <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-background/80">
+        <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/80">
           <div className="flicker-in border-2 border-border bg-card max-w-lg w-full mx-4 panel-glow">
-            <div className="absolute inset-[3px] border border-dashed border-secondary pointer-events-none" />
+            <div className="absolute inset-[3px] border border-border/30 pointer-events-none" />
 
-            <div className="bg-accent border-b-2 border-border px-3 py-1.5 flex items-center justify-between">
+            <div className="bg-accent border-b-2 border-border px-4 py-2 flex items-center justify-between">
               <span className="font-pixel text-[10px] text-primary tracking-wider">
-                ▸ {selected.id} — DETAILS
+                {selected.id} — DETAILS
               </span>
               <button
                 onClick={() => setSelected(null)}
@@ -110,10 +110,7 @@ const ProjectArchive = () => {
                 <div className="font-pixel text-[9px] text-muted-foreground tracking-wider mb-1">TECH STACK</div>
                 <div className="flex flex-wrap gap-2">
                   {selected.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="border border-border bg-accent px-2 py-0.5 font-terminal text-xs text-foreground"
-                    >
+                    <span key={tech} className="border border-border bg-accent px-2 py-0.5 font-terminal text-xs text-foreground">
                       {tech}
                     </span>
                   ))}

@@ -27,32 +27,23 @@ const ExternalLinkDialog = ({ href, children, className = "" }: ExternalLinkProp
       </a>
 
       {showConfirm && (
-        <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-background/80">
+        <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/80">
           <div className="flicker-in border-2 border-border bg-card max-w-md w-full mx-4 panel-glow">
-            <div className="absolute inset-[3px] border border-dashed border-secondary pointer-events-none" />
-            
-            {/* Header */}
-            <div className="bg-accent border-b-2 border-border px-3 py-1.5 flex items-center justify-between">
+            <div className="absolute inset-[3px] border border-border/30 pointer-events-none" />
+
+            <div className="bg-accent border-b-2 border-border px-4 py-2">
               <span className="font-pixel text-[10px] text-primary tracking-wider">
-                ⚠ EXTERNAL REDIRECT WARNING
+                EXTERNAL REDIRECT WARNING
               </span>
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="text-muted-foreground hover:text-primary text-sm interactive"
-              >
-                ✕
-              </button>
             </div>
 
-            {/* Body */}
             <div className="p-6 text-center">
               <p className="font-terminal text-lg text-foreground mb-2">
-                You are about to exit CRIMSON TERMINAL.
+                You are leaving the Crimson Archive.
               </p>
-              <p className="font-terminal text-base text-muted-foreground mb-6">
-                DESTINATION: {href}
+              <p className="font-terminal text-sm text-muted-foreground mb-6">
+                Proceed?
               </p>
-              <p className="font-terminal text-lg text-primary mb-6">Proceed?</p>
 
               <div className="flex gap-4 justify-center">
                 <a
@@ -62,13 +53,13 @@ const ExternalLinkDialog = ({ href, children, className = "" }: ExternalLinkProp
                   onClick={() => setShowConfirm(false)}
                   className="interactive border-2 border-primary bg-accent px-6 py-2 font-pixel text-[10px] text-primary hover:bg-primary hover:text-primary-foreground transition-colors tracking-wider"
                 >
-                  [ PROCEED ]
+                  PROCEED
                 </a>
                 <button
                   onClick={() => setShowConfirm(false)}
                   className="interactive border-2 border-border bg-card px-6 py-2 font-pixel text-[10px] text-muted-foreground hover:text-foreground hover:border-foreground transition-colors tracking-wider"
                 >
-                  [ CANCEL ]
+                  CANCEL
                 </button>
               </div>
             </div>
