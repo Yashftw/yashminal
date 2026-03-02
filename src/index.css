@@ -4,62 +4,63 @@
 
 @layer base {
   :root {
-    --background: 40 30% 90%;
-    --foreground: 180 5% 16%;
+    /* Default is dark - CRT Edition */
+    --background: 0 0% 0%;
+    --foreground: 36 50% 85%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 180 5% 16%;
+    --card: 350 58% 12%;
+    --card-foreground: 36 50% 85%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 180 5% 16%;
+    --popover: 350 58% 10%;
+    --popover-foreground: 36 50% 85%;
 
     --primary: 355 85% 30%;
-    --primary-foreground: 40 30% 90%;
+    --primary-foreground: 36 50% 85%;
 
-    --secondary: 350 40% 25%;
-    --secondary-foreground: 40 30% 90%;
+    --secondary: 350 40% 20%;
+    --secondary-foreground: 36 50% 85%;
 
-    --muted: 40 20% 82%;
-    --muted-foreground: 200 3% 32%;
+    --muted: 350 30% 15%;
+    --muted-foreground: 210 3% 33%;
 
-    --accent: 40 25% 85%;
-    --accent-foreground: 355 85% 30%;
+    --accent: 350 58% 15%;
+    --accent-foreground: 36 50% 85%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 350 40% 25%;
-    --input: 40 20% 80%;
+    --border: 355 85% 30%;
+    --input: 350 40% 20%;
     --ring: 355 85% 30%;
 
     --radius: 0px;
 
     --crimson-glow: 355 85% 40%;
-    --crimson-dark: 350 60% 15%;
-    --steel: 210 3% 32%;
+    --crimson-dark: 350 60% 10%;
+    --steel: 210 3% 33%;
   }
 
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 40 30% 90%;
+    --background: 0 0% 0%;
+    --foreground: 36 50% 85%;
 
     --card: 350 58% 12%;
-    --card-foreground: 40 30% 90%;
+    --card-foreground: 36 50% 85%;
 
     --popover: 350 58% 10%;
-    --popover-foreground: 40 30% 90%;
+    --popover-foreground: 36 50% 85%;
 
     --primary: 355 85% 30%;
-    --primary-foreground: 40 30% 90%;
+    --primary-foreground: 36 50% 85%;
 
     --secondary: 350 40% 20%;
-    --secondary-foreground: 40 30% 90%;
+    --secondary-foreground: 36 50% 85%;
 
     --muted: 350 30% 15%;
-    --muted-foreground: 210 3% 45%;
+    --muted-foreground: 210 3% 33%;
 
     --accent: 350 58% 15%;
-    --accent-foreground: 40 30% 90%;
+    --accent-foreground: 36 50% 85%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 0%;
@@ -70,7 +71,7 @@
 
     --crimson-glow: 355 85% 40%;
     --crimson-dark: 350 60% 10%;
-    --steel: 210 3% 45%;
+    --steel: 210 3% 33%;
   }
 }
 
@@ -91,6 +92,39 @@
   }
 }
 
+/* ===== CRT TELEVISION CONTAINER ===== */
+.crt-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow:
+    0 0 60px rgba(143, 11, 19, 0.15),
+    0 0 120px rgba(143, 11, 19, 0.05),
+    inset 0 0 80px rgba(0, 0, 0, 0.8);
+  border: 3px solid hsl(350 40% 12%);
+}
+
+/* CRT curvature via pseudo */
+.crt-screen::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.6) 100%);
+  border-radius: 18px;
+}
+
+/* Phosphor glow */
+.crt-screen::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, rgba(143, 11, 19, 0.06) 0%, transparent 70%);
+}
+
 /* CRT Scanline Overlay */
 .crt-overlay {
   pointer-events: none;
@@ -101,25 +135,18 @@
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.1) 2px,
-    rgba(0, 0, 0, 0.1) 4px
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
   );
-}
-
-.crt-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
 }
 
 /* CRT Flicker */
 @keyframes crt-flicker {
   0%, 100% { opacity: 1; }
   92% { opacity: 1; }
-  93% { opacity: 0.85; }
+  93% { opacity: 0.88; }
   94% { opacity: 1; }
-  96% { opacity: 0.92; }
+  96% { opacity: 0.94; }
   97% { opacity: 1; }
 }
 
@@ -138,7 +165,7 @@
 
 .glitch-hover:hover {
   animation: glitch-text 0.3s ease-in-out;
-  text-shadow: 2px 0 hsl(355, 85%, 30%), -2px 0 hsl(40, 30%, 90%);
+  text-shadow: 2px 0 hsl(355, 85%, 30%), -2px 0 hsl(36, 50%, 85%);
 }
 
 /* Screen glitch */
@@ -236,16 +263,6 @@
   animation: scrollFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Icon float */
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-.icon-float {
-  animation: iconFloat 3s ease-in-out infinite;
-}
-
 /* Glow pulse on borders */
 @keyframes glowPulse {
   0%, 100% { box-shadow: 0 0 6px hsl(var(--secondary) / 0.3); }
@@ -304,18 +321,13 @@
   border: 1px solid hsl(var(--muted));
 }
 
-/* Background glow for dark mode */
-.dark .bg-radial-glow {
+/* Background glow */
+.bg-radial-glow {
   background: radial-gradient(ellipse at 50% 30%, hsl(355 85% 15% / 0.3) 0%, transparent 70%);
 }
 
-/* Parchment texture for light mode */
-:root .bg-parchment {
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-}
-
-/* Glass effect panels in dark mode */
-.dark .glass-panel {
+/* Glass effect panels */
+.glass-panel {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -348,17 +360,6 @@
 
 .creature-idle {
   animation: creatureIdle 3s ease-in-out infinite;
-}
-
-/* Creature react on hover */
-@keyframes creatureReact {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  25% { transform: scale(1.05) rotate(-2deg); }
-  75% { transform: scale(1.05) rotate(2deg); }
-}
-
-.creature-react {
-  animation: creatureReact 0.4s ease-out;
 }
 
 /* Connection line pulse */
