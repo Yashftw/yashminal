@@ -9,7 +9,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import MusicPlayer from "@/components/MusicPlayer";
 import BackgroundParticles from "@/components/BackgroundParticles";
 import ScrollReveal from "@/components/ScrollReveal";
-import profileImg from "@/assets/profile.png";
+import BioPanel from "@/components/BioPanel";
+import DigitalCreature from "@/components/DigitalCreature";
 
 const systemStatuses = [
   { name: "EDGE COMPUTING", status: "ACTIVE" },
@@ -28,8 +29,12 @@ const techSkills = [
 
 const Index = () => {
   const [booted, setBooted] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [profileGlitch, setProfileGlitch] = useState(false);
+  const [activeCreatures, setActiveCreatures] = useState<Record<string, boolean>>({
+    system: false,
+    projects: false,
+    capability: false,
+    skills: false,
+  });
 
   // Random screen glitch
   useEffect(() => {
@@ -47,10 +52,8 @@ const Index = () => {
     return () => clearTimeout(timeout);
   }, [booted]);
 
-  const handleNameHover = useCallback(() => {
-    setShowProfile(true);
-    setProfileGlitch(true);
-    setTimeout(() => setProfileGlitch(false), 400);
+  const toggleCreature = useCallback((key: string) => {
+    setActiveCreatures((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
 
   if (!booted) {
@@ -75,7 +78,7 @@ const Index = () => {
         <ScrollReveal>
           <div className="border-2 border-border bg-accent px-4 py-2 flex items-center justify-between panel-glow hover-shimmer">
             <div className="flex items-center gap-3">
-              <span className="text-primary font-pixel text-[10px] tracking-wider">◤ CRIMSON ARCHIVE v4.0</span>
+              <span className="text-primary font-pixel text-[10px] tracking-wider">◤ CRIMSON ARCHIVE v5.0</span>
               <span className="text-muted-foreground font-terminal text-sm">|</span>
               <span className="font-terminal text-sm text-foreground">SYSTEM ONLINE</span>
             </div>
@@ -95,121 +98,103 @@ const Index = () => {
           </div>
         </ScrollReveal>
 
-        {/* ROW 1: ENTITY + SYSTEM STATUS */}
+        {/* ROW 1: BIO + SYSTEM STATUS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <ScrollReveal delay={100}>
-            <PanelWrapper title="ENTITY CORE" icon={<span>⚔</span>}>
-              <div className="relative">
-                <div className="space-y-2 font-terminal text-sm">
-                  <div>
-                    <span className="text-muted-foreground">NAME: </span>
-                    <span
-                      className="text-primary font-bold glitch-hover inline-block interactive"
-                      onMouseEnter={handleNameHover}
-                      onMouseLeave={() => setShowProfile(false)}
-                    >
-                      YASHRAJ YADAV
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">ALIAS: </span>
-                    <span className="text-foreground">YASFTW</span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">CLASSIFICATION: </span>
-                    <span className="text-foreground">SYSTEMS ARCHITECT (IN TRAINING)</span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">LOCATION: </span>
-                    <span className="text-foreground">CHANDIGARH UNIVERSITY</span>
-                  </div>
-                </div>
-
-                {showProfile && (
-                  <div className="absolute top-0 right-0 flicker-in z-20">
-                    <div className="border-2 border-primary bg-card p-1 panel-glow">
-                      <div className="bg-accent px-2 py-0.5 border-b border-border mb-1">
-                        <span className="font-pixel text-[8px] text-primary tracking-wider">ENTITY.IMG</span>
-                      </div>
-                      <img
-                        src={profileImg}
-                        alt="Yashraj Yadav"
-                        className={`w-24 h-24 object-cover ${profileGlitch ? "rgb-glitch" : ""}`}
-                        style={{ imageRendering: "auto" }}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </PanelWrapper>
+            <BioPanel />
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            <PanelWrapper title="SYSTEM STATUS" icon={<span>🧠</span>}>
-              <div className="space-y-3">
-                {systemStatuses.map((item, i) => (
-                  <div
-                    key={item.name}
-                    className="stagger-item flex items-center justify-between border border-border bg-background px-3 py-2 hover-shimmer"
-                    style={{ animationDelay: `${i * 80}ms` }}
-                  >
-                    <span className="font-terminal text-sm text-foreground">{item.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`font-terminal text-xs ${
-                          activeStatuses.includes(item.status) ? "text-primary" : "text-muted-foreground"
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                      {activeStatuses.includes(item.status) && (
-                        <span className="inline-block w-2 h-2 rounded-full bg-primary status-dot" />
-                      )}
-                    </div>
+            <div onClick={() => toggleCreature("system")} className="interactive">
+              <PanelWrapper title="SYSTEM STATUS" icon={<span>⚙</span>}>
+                <div className="space-y-3">
+                  {/* Creature */}
+                  <div className="flex justify-end">
+                    <DigitalCreature type="owl" active={activeCreatures.system} />
                   </div>
-                ))}
-              </div>
-            </PanelWrapper>
+                  {systemStatuses.map((item, i) => (
+                    <div
+                      key={item.name}
+                      className="stagger-item flex items-center justify-between border border-border bg-background px-3 py-2 hover-shimmer"
+                      style={{ animationDelay: `${i * 80}ms` }}
+                    >
+                      <span className="font-terminal text-sm text-foreground">{item.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`font-terminal text-xs ${
+                            activeStatuses.includes(item.status) ? "text-primary" : "text-muted-foreground"
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                        {activeStatuses.includes(item.status) && (
+                          <span className="inline-block w-2 h-2 rounded-full bg-primary status-dot" />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </PanelWrapper>
+            </div>
           </ScrollReveal>
         </div>
 
         {/* ROW 2: PROJECTS + CAPABILITY */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <ScrollReveal delay={100}>
-            <ProjectArchive />
+            <div onClick={() => toggleCreature("projects")} className="interactive">
+              <div className="relative">
+                <div className="absolute top-14 right-4 z-20">
+                  <DigitalCreature type="fox" active={activeCreatures.projects} />
+                </div>
+                <ProjectArchive />
+              </div>
+            </div>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            <PanelWrapper title="CAPABILITY MATRIX" icon={<span>📊</span>}>
-              <div className="space-y-3 font-terminal text-sm">
-                <div className="border border-border bg-background p-3 hover-shimmer">
-                  <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">PRIMARY FOCUS</div>
-                  <div className="text-foreground">DISTRIBUTED SYSTEMS & EDGE ARCHITECTURE</div>
+            <div onClick={() => toggleCreature("capability")} className="interactive">
+              <PanelWrapper title="CAPABILITY MATRIX" icon={<span>📊</span>}>
+                <div className="flex justify-end mb-2">
+                  <DigitalCreature type="serpent" active={activeCreatures.capability} />
                 </div>
-                <div className="border border-border bg-background p-3 hover-shimmer">
-                  <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">CURRENT OBJECTIVE</div>
-                  <div className="text-foreground">MASTERING KUBERNETES ORCHESTRATION & FEDERATED LEARNING PIPELINES</div>
+                <div className="space-y-3 font-terminal text-sm">
+                  <div className="border border-border bg-background p-3 hover-shimmer">
+                    <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">PRIMARY FOCUS</div>
+                    <div className="text-foreground">DISTRIBUTED SYSTEMS & EDGE ARCHITECTURE</div>
+                  </div>
+                  <div className="border border-border bg-background p-3 hover-shimmer">
+                    <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">CURRENT OBJECTIVE</div>
+                    <div className="text-foreground">MASTERING KUBERNETES ORCHESTRATION & FEDERATED LEARNING PIPELINES</div>
+                  </div>
+                  <div className="border border-border bg-background p-3 hover-shimmer">
+                    <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">3-MONTH TARGET</div>
+                    <div className="text-primary">FULL-STACK SYSTEMS PROFICIENCY — ALL DOMAINS ≥ 80%</div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 mt-2">
+                    {["MQTT", "CASSANDRA", "SPARK"].map((tech) => (
+                      <div key={tech} className="border border-border bg-accent text-center py-1.5 hover-shimmer">
+                        <span className="font-pixel text-[8px] text-foreground tracking-wider">{tech}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="border border-border bg-background p-3 hover-shimmer">
-                  <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">3-MONTH TARGET</div>
-                  <div className="text-primary">FULL-STACK SYSTEMS PROFICIENCY — ALL DOMAINS ≥ 80%</div>
-                </div>
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {["MQTT", "CASSANDRA", "SPARK"].map((tech) => (
-                    <div key={tech} className="border border-border bg-accent text-center py-1.5 hover-shimmer">
-                      <span className="font-pixel text-[8px] text-foreground tracking-wider">{tech}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </PanelWrapper>
+              </PanelWrapper>
+            </div>
           </ScrollReveal>
         </div>
 
         {/* ROW 3: SKILLS + PHILOSOPHY */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <ScrollReveal delay={100}>
-            <SkillMatrix />
+            <div onClick={() => toggleCreature("skills")} className="interactive">
+              <div className="relative">
+                <div className="absolute top-14 right-4 z-20">
+                  <DigitalCreature type="crow" active={activeCreatures.skills} />
+                </div>
+                <SkillMatrix />
+              </div>
+            </div>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
