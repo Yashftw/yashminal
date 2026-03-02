@@ -2,95 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 0%;
+    --foreground: 0 80% 55%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 80% 55%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 80% 55%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 100% 55%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 100% 30%;
+    --secondary-foreground: 0 100% 55%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 100% 10%;
+    --muted-foreground: 0 60% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 100% 20%;
+    --accent-foreground: 0 100% 55%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 100% 30%;
+    --input: 0 100% 20%;
+    --ring: 0 100% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0px;
 
-    --sidebar-background: 0 0% 98%;
+    --crimson-glow: 0 100% 60%;
+    --crimson-dark: 0 100% 10%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 3%;
+    --sidebar-foreground: 0 80% 55%;
+    --sidebar-primary: 0 100% 55%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 100% 20%;
+    --sidebar-accent-foreground: 0 100% 55%;
+    --sidebar-border: 0 100% 30%;
+    --sidebar-ring: 0 100% 55%;
   }
 }
 
@@ -101,5 +55,176 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'VT323', monospace;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L4 8v8l8 6 8-6V8z' fill='%23FF1A1A' stroke='%23990000' stroke-width='1'/%3E%3C/svg%3E") 12 12, auto;
   }
+
+  a, button, [role="button"], .interactive {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2L8 10h4v10h4V10h4z' fill='%23FF3333' stroke='%23660000' stroke-width='1'/%3E%3Cpath d='M10 18l4 8 4-8' fill='%23FF1A1A'/%3E%3C/svg%3E") 14 14, pointer;
+  }
+}
+
+/* CRT Scanline Overlay */
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+.crt-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%);
+}
+
+/* CRT Flicker */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: crt-flicker 4s infinite;
+}
+
+/* Glitch text */
+@keyframes glitch-text {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 2px); }
+}
+
+.glitch-hover:hover {
+  animation: glitch-text 0.3s ease-in-out;
+  text-shadow: 2px 0 hsl(0, 100%, 55%), -2px 0 hsl(120, 100%, 50%);
+}
+
+/* Screen glitch */
+@keyframes screen-glitch {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(1px); }
+  75% { transform: translateX(-1px); }
+}
+
+@keyframes tear-line {
+  0% { top: -4px; opacity: 0; }
+  10% { opacity: 1; }
+  50% { top: 100%; opacity: 1; }
+  51% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.screen-glitch {
+  animation: screen-glitch 0.15s ease-in-out;
+}
+
+/* Blink cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.blink-cursor::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  color: hsl(var(--primary));
+}
+
+/* Boot text reveal */
+@keyframes type-reveal {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Panel glow */
+.panel-glow {
+  box-shadow: 0 0 8px hsl(var(--secondary)), inset 0 0 8px hsl(0 100% 10% / 0.5);
+}
+
+.panel-glow:hover {
+  box-shadow: 0 0 15px hsl(var(--primary) / 0.6), inset 0 0 10px hsl(0 100% 15% / 0.5);
+}
+
+/* Progress bar fill animation */
+@keyframes fill-bar {
+  from { width: 0; }
+  to { width: var(--bar-width); }
+}
+
+.bar-fill {
+  animation: fill-bar 1.2s ease-out forwards;
+}
+
+/* RGB split on image */
+@keyframes rgb-split {
+  0% { filter: none; transform: scale(1); }
+  25% { filter: drop-shadow(2px 0 0 red) drop-shadow(-2px 0 0 cyan); transform: scale(1.02); }
+  50% { filter: drop-shadow(-1px 0 0 red) drop-shadow(1px 0 0 lime); transform: scale(1.01); }
+  75% { filter: drop-shadow(1px 0 0 red) drop-shadow(-1px 0 0 cyan); transform: scale(1.03); }
+  100% { filter: none; transform: scale(1); }
+}
+
+.rgb-glitch {
+  animation: rgb-split 0.4s ease-out;
+}
+
+/* Flicker in */
+@keyframes flicker-in {
+  0% { opacity: 0; }
+  10% { opacity: 0.6; }
+  20% { opacity: 0.2; }
+  30% { opacity: 0.8; }
+  40% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.flicker-in {
+  animation: flicker-in 0.5s ease-out;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(0, 0%, 3%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(0, 100%, 30%);
+  border: 1px solid hsl(0, 100%, 20%);
+}
+
+/* Status dot blink */
+@keyframes dot-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.status-dot {
+  animation: dot-blink 1.5s ease-in-out infinite;
+}
+
+/* Horizontal tear */
+@keyframes h-tear {
+  0% { clip-path: inset(0); }
+  20% { clip-path: inset(45% 0 50% 0); }
+  40% { clip-path: inset(0); }
+  100% { clip-path: inset(0); }
 }
