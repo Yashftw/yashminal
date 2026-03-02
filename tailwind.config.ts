@@ -56,6 +56,7 @@ export default {
           glow: "hsl(var(--crimson-glow))",
           dark: "hsl(var(--crimson-dark))",
         },
+        steel: "hsl(var(--steel))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
