@@ -339,3 +339,36 @@
   z-index: 0;
   opacity: 0.3;
 }
+
+/* Creature idle breathing */
+@keyframes creatureIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.creature-idle {
+  animation: creatureIdle 3s ease-in-out infinite;
+}
+
+/* Creature react on hover */
+@keyframes creatureReact {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(-2deg); }
+  75% { transform: scale(1.05) rotate(2deg); }
+}
+
+.creature-react {
+  animation: creatureReact 0.4s ease-out;
+}
+
+/* Connection line pulse */
+@keyframes connectionPulse {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.connection-line {
+  background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+  background-size: 50% 100%;
+  animation: connectionPulse 1.5s linear infinite;
+}
