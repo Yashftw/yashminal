@@ -26,7 +26,8 @@ const BootScreen = ({ onComplete }: { onComplete: () => void }) => {
     let i = 0;
     const interval = setInterval(() => {
       if (i < bootLines.length) {
-        setLines((prev) => [...prev, bootLines[i]]);
+        const currentLine = bootLines[i];
+        setLines((prev) => [...prev, currentLine]);
         i++;
       } else {
         clearInterval(interval);
