@@ -78,15 +78,17 @@ const BioPanel = () => {
       <PanelWrapper title="BIO">
         <div className="relative min-h-[200px] interactive" onClick={handleActivate}>
           <div className="space-y-2 font-terminal text-sm">
-            <div>
-              <span className="text-muted-foreground">NAME: </span>
-              <span
-                className="text-primary font-bold glitch-hover inline-block interactive"
-                onMouseEnter={handleProfileHover}
-                onMouseLeave={() => setShowProfile(false)}
+            <div
+              onMouseEnter={handleProfileHover}
+              onMouseLeave={() => setShowProfile(false)}
+              className="interactive"
+            >
+              <span className="text-muted-foreground text-sm">NAME: </span>
+              <div
+                className="text-primary font-bold glitch-hover inline-block font-terminal text-3xl sm:text-4xl tracking-wide mt-1"
               >
                 YASHRAJ YADAV
-              </span>
+              </div>
             </div>
             <div>
               <span className="text-muted-foreground">ALIAS: </span>
