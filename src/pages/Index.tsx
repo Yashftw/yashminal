@@ -1,15 +1,19 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import VideoIntro from "@/components/VideoIntro";
 import BootScreen from "@/components/BootScreen";
 import CRTOverlay from "@/components/CRTOverlay";
 import PanelWrapper from "@/components/PanelWrapper";
 import ProjectArchive from "@/components/ProjectArchive";
 import SkillMatrix from "@/components/SkillMatrix";
+import CapabilityMatrix from "@/components/CapabilityMatrix";
 import ExternalLinkDialog from "@/components/ExternalLinkDialog";
 import MusicPlayer from "@/components/MusicPlayer";
 import BackgroundParticles from "@/components/BackgroundParticles";
 import ScrollReveal from "@/components/ScrollReveal";
 import BioPanel from "@/components/BioPanel";
+import GreetIcon from "@/components/GreetIcon";
+import HolographicCards from "@/components/HolographicCards";
+import CrimsonTerminal from "@/components/CrimsonTerminal";
 
 const systemStatuses = [
   { name: "EDGE COMPUTING", status: "ACTIVE" },
@@ -21,20 +25,32 @@ const systemStatuses = [
 
 const activeStatuses = ["ACTIVE", "CONNECTED", "CONTAINERIZED"];
 
-const techSkills = [
-  "PYTHON", "JAVA", "JAVASCRIPT", "SQL", "DOCKER",
-  "KUBERNETES", "SPARK STREAMING", "MQTT", "CASSANDRA", "AWS"
-];
-
 type Phase = "video" | "boot" | "dashboard";
 
 const Index = () => {
   const [phase, setPhase] = useState<Phase>("video");
+  const [scrollUnlocked, setScrollUnlocked] = useState(false);
 
   // Force dark mode
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
+
+  // Light scroll resistance until greet is answered
+  useEffect(() => {
+    if (phase !== "dashboard" || scrollUnlocked) return;
+    const handleScroll = (e: WheelEvent) => {
+      if (!scrollUnlocked) {
+        // Allow a tiny scroll but dampen it
+        if (window.scrollY > 200) {
+          e.preventDefault();
+          window.scrollTo({ top: 100, behavior: "smooth" });
+        }
+      }
+    };
+    window.addEventListener("wheel", handleScroll, { passive: false });
+    return () => window.removeEventListener("wheel", handleScroll);
+  }, [phase, scrollUnlocked]);
 
   // Random screen glitch
   useEffect(() => {
@@ -45,10 +61,10 @@ const Index = () => {
         el.classList.add("screen-glitch");
         setTimeout(() => el.classList.remove("screen-glitch"), 150);
       }
-      const next = 25000 + Math.random() * 15000;
+      const next = 30000 + Math.random() * 15000;
       setTimeout(triggerGlitch, next);
     };
-    const timeout = setTimeout(triggerGlitch, 15000);
+    const timeout = setTimeout(triggerGlitch, 20000);
     return () => clearTimeout(timeout);
   }, [phase]);
 
@@ -64,6 +80,7 @@ const Index = () => {
     <div className="min-h-screen bg-background crt-flicker crt-screen relative">
       <BackgroundParticles />
       <CRTOverlay />
+      <HolographicCards />
 
       {/* Music player */}
       <div className="fixed top-4 right-4 z-50">
@@ -73,6 +90,11 @@ const Index = () => {
       <div className="fixed inset-0 bg-radial-glow pointer-events-none z-0" />
 
       <div id="main-dashboard" className="relative z-10 max-w-4xl mx-auto px-4 py-6 space-y-4 pt-20">
+
+        {/* GREET ICON */}
+        {!scrollUnlocked && (
+          <GreetIcon onUnlock={() => setScrollUnlocked(true)} />
+        )}
 
         {/* STATUS STRIP */}
         <ScrollReveal>
@@ -88,7 +110,9 @@ const Index = () => {
 
         {/* BIO */}
         <ScrollReveal delay={100}>
-          <BioPanel />
+          <div id="bio-section">
+            <BioPanel />
+          </div>
         </ScrollReveal>
 
         {/* SYSTEM STATUS */}
@@ -122,64 +146,60 @@ const Index = () => {
 
         {/* PROJECT ARCHIVE */}
         <ScrollReveal delay={150}>
-          <ProjectArchive />
+          <div id="projects-section">
+            <ProjectArchive />
+          </div>
         </ScrollReveal>
 
         {/* CAPABILITY MATRIX */}
         <ScrollReveal delay={150}>
-          <PanelWrapper title="CAPABILITY MATRIX">
-            <div className="space-y-3 font-terminal text-sm">
-              <div className="border border-border bg-background p-3 hover-shimmer">
-                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">PRIMARY FOCUS</div>
-                <div className="text-foreground">DISTRIBUTED SYSTEMS & EDGE ARCHITECTURE</div>
-              </div>
-              <div className="border border-border bg-background p-3 hover-shimmer">
-                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">CURRENT OBJECTIVE</div>
-                <div className="text-foreground">MASTERING KUBERNETES ORCHESTRATION & FEDERATED LEARNING PIPELINES</div>
-              </div>
-              <div className="border border-border bg-background p-3 hover-shimmer">
-                <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">3-MONTH TARGET</div>
-                <div className="text-primary">FULL-STACK SYSTEMS PROFICIENCY — ALL DOMAINS ≥ 80%</div>
-              </div>
-            </div>
-          </PanelWrapper>
+          <CapabilityMatrix />
         </ScrollReveal>
 
         {/* SKILL DIAGNOSTICS */}
         <ScrollReveal delay={150}>
-          <SkillMatrix />
+          <div id="skills-section">
+            <SkillMatrix />
+          </div>
+        </ScrollReveal>
+
+        {/* CRIMSON TERMINAL */}
+        <ScrollReveal delay={150}>
+          <CrimsonTerminal />
         </ScrollReveal>
 
         {/* TRANSMISSION TERMINAL */}
         <ScrollReveal delay={150}>
-          <PanelWrapper title="TRANSMISSION TERMINAL">
-            <div className="font-terminal text-sm space-y-2">
-              <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <ExternalLinkDialog href="https://github.com/yasftw">
-                  <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
-                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
-                    <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
-                  </div>
-                </ExternalLinkDialog>
-                <ExternalLinkDialog href="https://linkedin.com/in/yasftw">
-                  <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
-                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">LINKEDIN</div>
-                    <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
-                  </div>
-                </ExternalLinkDialog>
-                <ExternalLinkDialog href="#">
-                  <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
-                    <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
-                    <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
-                  </div>
-                </ExternalLinkDialog>
+          <div id="transmission-section">
+            <PanelWrapper title="TRANSMISSION TERMINAL">
+              <div className="font-terminal text-sm space-y-2">
+                <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <ExternalLinkDialog href="https://github.com/yasftw">
+                    <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
+                      <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
+                      <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
+                    </div>
+                  </ExternalLinkDialog>
+                  <ExternalLinkDialog href="https://linkedin.com/in/yasftw">
+                    <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
+                      <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">LINKEDIN</div>
+                      <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
+                    </div>
+                  </ExternalLinkDialog>
+                  <ExternalLinkDialog href="#">
+                    <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
+                      <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
+                      <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
+                    </div>
+                  </ExternalLinkDialog>
+                </div>
+                <div className="mt-3 text-xs text-muted-foreground border-t border-border pt-3">
+                  <span className="blink-cursor">AWAITING TRANSMISSION INPUT</span>
+                </div>
               </div>
-              <div className="mt-3 text-xs text-muted-foreground border-t border-border pt-3">
-                <span className="blink-cursor">AWAITING TRANSMISSION INPUT</span>
-              </div>
-            </div>
-          </PanelWrapper>
+            </PanelWrapper>
+          </div>
         </ScrollReveal>
 
         {/* Footer */}
