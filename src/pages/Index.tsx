@@ -29,7 +29,7 @@ type Phase = "video" | "boot" | "dashboard";
 
 const Index = () => {
   const [phase, setPhase] = useState<Phase>("video");
-  const [scrollUnlocked, setScrollUnlocked] = useState(false);
+  const [scrollUnlocked, setScrollUnlocked] = useState(true);
 
   // Force dark mode on initial load
   useEffect(() => {
@@ -82,8 +82,6 @@ const Index = () => {
     <div className="min-h-screen bg-background crt-flicker crt-screen relative">
       <BackgroundParticles />
       <CRTOverlay />
-      <HolographicCards />
-
       {/* Top bar: Theme toggle + Music player */}
       <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
         <ThemeToggle />

@@ -27,7 +27,7 @@ const GreetIcon = ({ onUnlock }: { onUnlock?: () => void }) => {
 
     setTimeout(() => {
       setDismissed(true);
-      onUnlock();
+      onUnlock?.();
     }, 2000);
   };
 
