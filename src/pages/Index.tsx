@@ -12,7 +12,6 @@ import BackgroundParticles from "@/components/BackgroundParticles";
 import ScrollReveal from "@/components/ScrollReveal";
 import BioPanel from "@/components/BioPanel";
 import GreetIcon from "@/components/GreetIcon";
-import HolographicCards from "@/components/HolographicCards";
 import CrimsonTerminal from "@/components/CrimsonTerminal";
 import ThemeToggle from "@/components/ThemeToggle";
 
