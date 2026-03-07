@@ -7,7 +7,6 @@ const MusicPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element - user can replace src
     const audio = new Audio();
     audio.loop = true;
     audio.volume = volume;
@@ -35,21 +34,21 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="border-2 border-border bg-card px-3 py-1.5 panel-glow flex items-center gap-3">
+    <div className="border-2 border-border bg-card px-3 py-2 panel-glow flex items-center gap-3 transition-all duration-500 hover:border-primary/60">
       <span className="text-primary text-sm icon-float">🎵</span>
       <span className="font-pixel text-[8px] text-muted-foreground tracking-wider hidden sm:inline">
         AMBIENT
       </span>
       <button
         onClick={togglePlay}
-        className="interactive font-terminal text-sm text-primary hover:text-accent-foreground"
+        className="interactive font-terminal text-sm text-primary hover:text-accent-foreground transition-colors duration-300"
         aria-label={playing ? "Pause" : "Play"}
       >
         {playing ? "❚❚" : "▶"}
       </button>
       <button
         onClick={() => setMuted(!muted)}
-        className="interactive font-terminal text-xs text-muted-foreground hover:text-primary"
+        className="interactive font-terminal text-xs text-muted-foreground hover:text-primary transition-colors duration-300"
         aria-label={muted ? "Unmute" : "Mute"}
       >
         {muted ? "🔇" : "🔊"}
@@ -61,7 +60,7 @@ const MusicPlayer = () => {
         step="0.05"
         value={volume}
         onChange={(e) => setVolume(parseFloat(e.target.value))}
-        className="w-12 h-1 accent-primary"
+        className="w-14 h-1 accent-primary"
         aria-label="Volume"
       />
     </div>
