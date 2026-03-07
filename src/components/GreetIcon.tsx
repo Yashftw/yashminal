@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 const POSITIVE_WORDS = ["good", "great", "fine", "doing well", "awesome", "okay", "not bad", "amazing", "excellent", "wonderful", "nice", "well", "cool", "fantastic", "happy", "perfect"];
 
-const GreetIcon = ({ onUnlock }: { onUnlock: () => void }) => {
+const GreetIcon = ({ onUnlock }: { onUnlock?: () => void }) => {
   const [expanded, setExpanded] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [response, setResponse] = useState("");
@@ -27,7 +27,7 @@ const GreetIcon = ({ onUnlock }: { onUnlock: () => void }) => {
 
     setTimeout(() => {
       setDismissed(true);
-      onUnlock();
+      onUnlock?.();
     }, 2000);
   };
 
