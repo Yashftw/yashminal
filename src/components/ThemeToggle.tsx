@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 
 const ThemeToggle = () => {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(() => {
+    const stored = localStorage.getItem("crimson-theme");
+    return stored ? stored === "dark" : true;
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    localStorage.setItem("crimson-theme", dark ? "dark" : "light");
   }, [dark]);
 
-  // Initialize dark mode on mount
   useEffect(() => {
-    document.documentElement.classList.add("dark");
+    // Ensure dark class on mount
+    const stored = localStorage.getItem("crimson-theme");
+    if (!stored || stored === "dark") {
+      document.documentElement.classList.add("dark");
+    }
   }, []);
 
   return (

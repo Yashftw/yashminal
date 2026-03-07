@@ -14,6 +14,7 @@ import BioPanel from "@/components/BioPanel";
 import GreetIcon from "@/components/GreetIcon";
 import HolographicCards from "@/components/HolographicCards";
 import CrimsonTerminal from "@/components/CrimsonTerminal";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const systemStatuses = [
   { name: "EDGE COMPUTING", status: "ACTIVE" },
@@ -31,9 +32,12 @@ const Index = () => {
   const [phase, setPhase] = useState<Phase>("video");
   const [scrollUnlocked, setScrollUnlocked] = useState(false);
 
-  // Force dark mode
+  // Force dark mode on initial load
   useEffect(() => {
-    document.documentElement.classList.add("dark");
+    const stored = localStorage.getItem("crimson-theme");
+    if (!stored || stored === "dark") {
+      document.documentElement.classList.add("dark");
+    }
   }, []);
 
   // Light scroll resistance until greet is answered
@@ -41,7 +45,6 @@ const Index = () => {
     if (phase !== "dashboard" || scrollUnlocked) return;
     const handleScroll = (e: WheelEvent) => {
       if (!scrollUnlocked) {
-        // Allow a tiny scroll but dampen it
         if (window.scrollY > 200) {
           e.preventDefault();
           window.scrollTo({ top: 100, behavior: "smooth" });
@@ -52,19 +55,19 @@ const Index = () => {
     return () => window.removeEventListener("wheel", handleScroll);
   }, [phase, scrollUnlocked]);
 
-  // Random screen glitch
+  // Random screen glitch (35-60s interval)
   useEffect(() => {
     if (phase !== "dashboard") return;
     const triggerGlitch = () => {
       const el = document.getElementById("main-dashboard");
       if (el) {
         el.classList.add("screen-glitch");
-        setTimeout(() => el.classList.remove("screen-glitch"), 150);
+        setTimeout(() => el.classList.remove("screen-glitch"), 100);
       }
-      const next = 30000 + Math.random() * 15000;
+      const next = 35000 + Math.random() * 25000;
       setTimeout(triggerGlitch, next);
     };
-    const timeout = setTimeout(triggerGlitch, 20000);
+    const timeout = setTimeout(triggerGlitch, 35000);
     return () => clearTimeout(timeout);
   }, [phase]);
 
@@ -82,14 +85,15 @@ const Index = () => {
       <CRTOverlay />
       <HolographicCards />
 
-      {/* Music player */}
-      <div className="fixed top-4 right-4 z-50">
+      {/* Top bar: Theme toggle + Music player */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <ThemeToggle />
         <MusicPlayer />
       </div>
 
       <div className="fixed inset-0 bg-radial-glow pointer-events-none z-0" />
 
-      <div id="main-dashboard" className="relative z-10 max-w-4xl mx-auto px-4 py-6 space-y-4 pt-20">
+      <div id="main-dashboard" className="relative z-10 max-w-4xl mx-auto px-4 py-6 space-y-5 pt-20">
 
         {/* GREET ICON */}
         {!scrollUnlocked && (
