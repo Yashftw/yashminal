@@ -60,7 +60,7 @@ const CrimsonTerminal = () => {
       case "yashftw":
         setPopup({
           title: "ARCHIVE RECORD",
-          content: "NAME: YASHRAJ YADAV\nALIAS: YASFTW\nCLASSIFICATION: SYSTEMS ARCHITECT\nSTATUS: BUILDING",
+          content: "NAME: YASHRAJ YADAV\nALIAS: Yashftw\nCLASSIFICATION: SYSTEMS ARCHITECT\nSTATUS: BUILDING",
         });
         newLines.push({ type: "output", text: "▸ ACCESSING ARCHIVE RECORD..." });
         break;
