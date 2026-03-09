@@ -7,14 +7,14 @@ interface Skill {
 }
 
 const skills: Skill[] = [
-  { name: "SQL", level: 80 },
+  { name: "PYTHON", level: 85 },
+  { name: "CLOUD COMPUTING", level: 80 },
+  { name: "SAP ERP", level: 75 },
+  { name: "AI / ML", level: 70 },
+  { name: "SKETCHING", level: 65 },
   { name: "SYSTEM DESIGN", level: 70 },
-  { name: "DOCKER", level: 85 },
-  { name: "KUBERNETES", level: 60 },
-  { name: "EDGE COMPUTING", level: 75 },
-  { name: "SPARK STREAMING", level: 65 },
-  { name: "AWS IOT", level: 70 },
-  { name: "MQTT / CASSANDRA", level: 72 },
+  { name: "DOCKER", level: 80 },
+  { name: "DATA ENGINEERING", level: 72 },
 ];
 
 const SkillBar = ({ skill, animate }: { skill: Skill; animate: boolean }) => {
@@ -42,9 +42,7 @@ const SkillMatrix = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
       { threshold: 0.3 }
     );
     if (ref.current) observer.observe(ref.current);
@@ -61,7 +59,7 @@ const SkillMatrix = () => {
         </div>
         <div className="mt-4 border-t border-border pt-3">
           <p className="font-terminal text-xs text-muted-foreground">
-            ▸ 3-MONTH PROFICIENCY TARGET: ALL METRICS ≥ 80%
+            ▸ CONTINUOUS LEARNING — ALL METRICS TRENDING UPWARD
           </p>
         </div>
       </PanelWrapper>

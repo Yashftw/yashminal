@@ -9,19 +9,29 @@ interface Capability {
 
 const capabilities: Capability[] = [
   {
-    name: "DISTRIBUTED SYSTEMS & EDGE ARCHITECTURE",
+    name: "CLOUD COMPUTING & MIGRATION",
     description: "PRIMARY FOCUS",
-    detail: "Designing and deploying systems that process data at the edge, reducing latency and enabling real-time decision making across distributed nodes.",
+    detail: "Designing, deploying, and migrating enterprise systems to cloud infrastructure. Expertise in AWS, Azure, and hybrid cloud architectures with focus on scalability, security, and cost optimization.",
   },
   {
-    name: "KUBERNETES ORCHESTRATION & FEDERATED LEARNING",
+    name: "SAP ERP SYSTEMS",
+    description: "ENTERPRISE EXPERTISE",
+    detail: "Deep knowledge of SAP ERP modules including MM, SD, FICO, and PP. Experience in system configuration, customization, and integration with third-party platforms for streamlined business operations.",
+  },
+  {
+    name: "AI / ML MODEL DEVELOPMENT",
     description: "CURRENT OBJECTIVE",
-    detail: "Mastering container orchestration for scalable deployments and implementing federated learning pipelines for privacy-preserving machine learning across distributed datasets.",
+    detail: "Building and training machine learning models for predictive analytics, natural language processing, and computer vision. Proficient with TensorFlow, PyTorch, and scikit-learn pipelines.",
   },
   {
-    name: "FULL-STACK SYSTEMS PROFICIENCY — ALL DOMAINS ≥ 80%",
-    description: "3-MONTH TARGET",
-    detail: "Comprehensive skill development across cloud infrastructure, data engineering, edge computing, and DevOps to achieve cross-domain proficiency.",
+    name: "PYTHON PROGRAMMING",
+    description: "CORE LANGUAGE",
+    detail: "Advanced Python development for automation, data engineering, API development, and scripting. Experienced with Django, FastAPI, Pandas, and NumPy ecosystems.",
+  },
+  {
+    name: "SKETCHING & CREATIVE DESIGN",
+    description: "CREATIVE DOMAIN",
+    detail: "Traditional and digital sketching for UI/UX concept design, storyboarding, and visual communication. Blending artistic vision with technical execution for creative problem solving.",
   },
 ];
 
@@ -53,23 +63,24 @@ const CapabilityMatrix = () => {
             <div className="text-muted-foreground text-xs font-pixel tracking-wider mb-1">
               {cap.description}
             </div>
-            <div className={i === 2 ? "text-primary" : "text-foreground"}>
+            <div className="text-foreground">
               {cap.name}
             </div>
 
-            {/* Retro loading overlay */}
             {loadingIdx === i && (
               <div className="mt-3 border border-border bg-card p-2 flicker-in">
                 <div className="font-pixel text-[8px] text-muted-foreground tracking-wider mb-1">
                   ACCESSING MODULE…
                 </div>
-                <div className="h-2 bg-background border border-border overflow-hidden">
+                <div className="h-2 bg-background border border-border overflow-hidden mb-1">
                   <div className="h-full bg-primary retro-load-bar" />
+                </div>
+                <div className="font-pixel text-[7px] text-primary tracking-wider">
+                  LOADING SKILL DATA...
                 </div>
               </div>
             )}
 
-            {/* Expanded content */}
             {expandedIdx === i && loadingIdx !== i && (
               <div className="mt-3 border-t border-border pt-3 flicker-in">
                 <div className="font-pixel text-[8px] text-primary tracking-wider mb-1">

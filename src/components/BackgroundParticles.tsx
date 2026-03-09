@@ -19,7 +19,6 @@ const BackgroundParticles = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Spawn particles
     for (let i = 0; i < 40; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -38,7 +37,6 @@ const BackgroundParticles = () => {
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0) p.x = canvas.width;
         if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
@@ -47,11 +45,10 @@ const BackgroundParticles = () => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = isDark
-          ? `rgba(143, 11, 19, ${p.alpha})`
-          : `rgba(56, 15, 23, ${p.alpha * 0.5})`;
+          ? `rgba(63, 215, 255, ${p.alpha})`
+          : `rgba(6, 0, 16, ${p.alpha * 0.5})`;
         ctx.fill();
       }
-
       animId = requestAnimationFrame(draw);
     };
     draw();
