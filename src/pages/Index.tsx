@@ -6,32 +6,31 @@ import PanelWrapper from "@/components/PanelWrapper";
 import ProjectArchive from "@/components/ProjectArchive";
 import SkillMatrix from "@/components/SkillMatrix";
 import CapabilityMatrix from "@/components/CapabilityMatrix";
+import ContactPanel from "@/components/ContactPanel";
 import ExternalLinkDialog from "@/components/ExternalLinkDialog";
 import MusicPlayer from "@/components/MusicPlayer";
-import BackgroundParticles from "@/components/BackgroundParticles";
 import ScrollReveal from "@/components/ScrollReveal";
 import BioPanel from "@/components/BioPanel";
 import GreetIcon from "@/components/GreetIcon";
 import CrimsonTerminal from "@/components/CrimsonTerminal";
 import ThemeToggle from "@/components/ThemeToggle";
+import Cubes from "@/components/Cubes";
 
 const systemStatuses = [
-  { name: "EDGE COMPUTING", status: "ACTIVE" },
-  { name: "FEDERATED LEARNING", status: "LEARNING" },
-  { name: "KUBERNETES", status: "DEPLOYING" },
-  { name: "DOCKER", status: "CONTAINERIZED" },
-  { name: "AWS IOT", status: "CONNECTED" },
+  { name: "CLOUD COMPUTING", status: "ACTIVE" },
+  { name: "SAP ERP", status: "OPERATIONAL" },
+  { name: "AI / ML", status: "LEARNING" },
+  { name: "PYTHON", status: "ACTIVE" },
+  { name: "CREATIVE DESIGN", status: "ONLINE" },
 ];
 
-const activeStatuses = ["ACTIVE", "CONNECTED", "CONTAINERIZED"];
+const activeStatuses = ["ACTIVE", "OPERATIONAL", "ONLINE"];
 
 type Phase = "video" | "boot" | "dashboard";
 
 const Index = () => {
   const [phase, setPhase] = useState<Phase>("video");
-  const [scrollUnlocked, setScrollUnlocked] = useState(true);
 
-  // Force dark mode on initial load
   useEffect(() => {
     const stored = localStorage.getItem("crimson-theme");
     if (!stored || stored === "dark") {
@@ -39,22 +38,7 @@ const Index = () => {
     }
   }, []);
 
-  // Light scroll resistance until greet is answered
-  useEffect(() => {
-    if (phase !== "dashboard" || scrollUnlocked) return;
-    const handleScroll = (e: WheelEvent) => {
-      if (!scrollUnlocked) {
-        if (window.scrollY > 200) {
-          e.preventDefault();
-          window.scrollTo({ top: 100, behavior: "smooth" });
-        }
-      }
-    };
-    window.addEventListener("wheel", handleScroll, { passive: false });
-    return () => window.removeEventListener("wheel", handleScroll);
-  }, [phase, scrollUnlocked]);
-
-  // Random screen glitch (35-60s interval)
+  // Random screen glitch (35-60s)
   useEffect(() => {
     if (phase !== "dashboard") return;
     const triggerGlitch = () => {
@@ -79,31 +63,45 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background crt-flicker crt-screen relative">
-      <BackgroundParticles />
+    <div className="min-h-screen w-full bg-background crt-flicker crt-screen relative">
+      {/* Cubes Background */}
+      <div className="cubes-background">
+        <Cubes
+          gridSize={12}
+          maxAngle={30}
+          radius={3}
+          duration={{ enter: 0.3, leave: 0.6 }}
+          borderStyle="1px solid rgba(63, 215, 255, 0.15)"
+          faceColor="rgba(6, 0, 16, 0.9)"
+          rippleColor="#3fd7ff"
+          rippleSpeed={2}
+          autoAnimate={true}
+          rippleOnClick={true}
+        />
+      </div>
+
       <CRTOverlay />
-      {/* Top bar: Theme toggle + Music player */}
+
+      {/* Top bar */}
       <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
         <ThemeToggle />
         <MusicPlayer />
       </div>
 
-      <div className="fixed inset-0 bg-radial-glow pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none z-[1]" />
 
-      <div id="main-dashboard" className="relative z-10 max-w-4xl mx-auto px-4 py-6 space-y-5 pt-20">
+      <div id="main-dashboard" className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 space-y-6 pt-20">
 
-        {/* GREET ICON */}
-        {!scrollUnlocked && (
-          <GreetIcon onUnlock={() => setScrollUnlocked(true)} />
-        )}
+        {/* GREET ICON - always optional */}
+        <GreetIcon />
 
         {/* STATUS STRIP */}
         <ScrollReveal>
-          <div className="border-2 border-border bg-accent px-4 py-2 flex items-center justify-between panel-glow">
-            <span className="font-pixel text-[10px] tracking-wider text-primary">CRIMSON ARCHIVE v5.0</span>
+          <div className="border-2 border-border bg-accent/80 px-4 py-2 flex items-center justify-between panel-glow backdrop-blur-sm">
+            <span className="font-pixel text-[10px] tracking-wider text-primary">CYBER ARCHIVE v6.0</span>
             <div className="flex items-center gap-4">
               <span className="font-terminal text-xs text-muted-foreground">
-                SIGNAL: <span className="text-primary status-dot inline-block">●</span> UNSTABLE
+                SIGNAL: <span className="text-primary status-dot inline-block">●</span> STABLE
               </span>
             </div>
           </div>
@@ -123,7 +121,7 @@ const Index = () => {
               {systemStatuses.map((item, i) => (
                 <div
                   key={item.name}
-                  className="stagger-item flex items-center justify-between border border-border bg-background px-3 py-2 hover-shimmer"
+                  className="stagger-item flex items-center justify-between border border-border bg-background/80 px-3 py-2 hover-shimmer backdrop-blur-sm"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
                   <span className="font-terminal text-sm text-foreground">{item.name}</span>
@@ -164,7 +162,14 @@ const Index = () => {
           </div>
         </ScrollReveal>
 
-        {/* CRIMSON TERMINAL */}
+        {/* CONTACT ME */}
+        <ScrollReveal delay={150}>
+          <div id="contact-section">
+            <ContactPanel />
+          </div>
+        </ScrollReveal>
+
+        {/* TERMINAL */}
         <ScrollReveal delay={150}>
           <CrimsonTerminal />
         </ScrollReveal>
@@ -177,19 +182,19 @@ const Index = () => {
                 <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <ExternalLinkDialog href="https://github.com/yasftw">
-                    <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
+                    <div className="border border-border bg-background/80 p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
                       <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
                     </div>
                   </ExternalLinkDialog>
                   <ExternalLinkDialog href="https://linkedin.com/in/yasftw">
-                    <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
+                    <div className="border border-border bg-background/80 p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">LINKEDIN</div>
                       <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
                     </div>
                   </ExternalLinkDialog>
                   <ExternalLinkDialog href="#">
-                    <div className="border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer">
+                    <div className="border border-border bg-background/80 p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
                       <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
                     </div>
@@ -205,7 +210,7 @@ const Index = () => {
 
         {/* Footer */}
         <div className="text-center py-4 font-terminal text-xs text-muted-foreground border-t border-border">
-          CRIMSON ARCHIVE © 2026 — YASFTW — ALL SYSTEMS MONITORED
+          CYBER ARCHIVE © 2026 — YASFTW — ALL SYSTEMS MONITORED
         </div>
       </div>
     </div>
