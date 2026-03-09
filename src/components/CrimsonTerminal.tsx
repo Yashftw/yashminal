@@ -43,8 +43,8 @@ const CrimsonTerminal = () => {
         document.getElementById("skills-section")?.scrollIntoView({ behavior: "smooth" });
         break;
       case "contact":
-        newLines.push({ type: "output", text: "▸ Scrolling to TRANSMISSION TERMINAL..." });
-        document.getElementById("transmission-section")?.scrollIntoView({ behavior: "smooth" });
+        newLines.push({ type: "output", text: "▸ Scrolling to CONTACT..." });
+        document.getElementById("contact-section")?.scrollIntoView({ behavior: "smooth" });
         break;
       case "clear":
         setLines([{ type: "output", text: "CRIMSON TERMINAL v1.0" }]);
