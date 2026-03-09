@@ -192,28 +192,24 @@ const Index = () => {
               <div className="font-terminal text-sm space-y-3">
                 <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <ExternalLinkDialog href="https://github.com/Yashhftw">
+                  <ExternalLinkDialog href="https://github.com/Yashftw">
                     <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
                       <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
                     </div>
                   </ExternalLinkDialog>
-                  <ExternalLinkDialog href="https:/www.linkedin.com/in/yashrajyadav20055/w">
+                  <ExternalLinkDialog href="https://www.linkedin.com/in/yashrajyadav20055/">
                     <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">LINKEDIN</div>
                       <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
                     </div>
                   </ExternalLinkDialog>
-                  <a
-                    href="/Yashraj_Yadav_Resume.pdf"
-                    download
-                    className="interactive text-foreground hover:text-primary transition-colors"
-                  >
+                  <ExternalLinkDialog href="#">
                     <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
                       <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
                     </div>
-                  </a>
+                  </ExternalLinkDialog>
                 </div>
                 <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-4">
                   <span className="blink-cursor">AWAITING TRANSMISSION INPUT</span>
