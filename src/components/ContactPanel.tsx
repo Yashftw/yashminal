@@ -11,6 +11,10 @@ const ContactPanel = () => {
   const handleSend = () => {
     if (!name.trim() || !email.trim() || !message.trim()) return;
     playOpenSound();
+    
+    const mailtoLink = `mailto:Yashrajyadav20055@gmail.com?subject=Message from ${encodeURIComponent(name)}&body=${encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`)}`;
+    window.open(mailtoLink, '_blank');
+    
     setSent(true);
     setTimeout(() => {
       setName("");
