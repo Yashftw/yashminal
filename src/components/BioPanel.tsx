@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import PanelWrapper from "./PanelWrapper";
 import profileImg from "@/assets/profile.png";
 
@@ -15,7 +15,7 @@ const BioPanel = () => {
   return (
     <PanelWrapper title="BIO">
       <div className="relative min-h-[160px]">
-        <div className="space-y-2 font-terminal text-sm">
+        <div className="space-y-3 font-terminal text-sm">
           <div
             onMouseEnter={handleProfileHover}
             onMouseLeave={() => setShowProfile(false)}
@@ -28,7 +28,7 @@ const BioPanel = () => {
           </div>
           <div>
             <span className="text-muted-foreground">ALIAS: </span>
-            <span className="text-foreground">YASFTW</span>
+            <span className="text-foreground">Yashftw</span>
           </div>
           <div>
             <span className="text-muted-foreground">CLASSIFICATION: </span>

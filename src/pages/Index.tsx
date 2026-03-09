@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import VideoIntro from "@/components/VideoIntro";
 import BootScreen from "@/components/BootScreen";
 import CRTOverlay from "@/components/CRTOverlay";
 import PanelWrapper from "@/components/PanelWrapper";
@@ -26,16 +25,28 @@ const systemStatuses = [
 
 const activeStatuses = ["ACTIVE", "OPERATIONAL", "ONLINE"];
 
-type Phase = "video" | "boot" | "dashboard";
+type Phase = "boot" | "dashboard";
 
 const Index = () => {
-  const [phase, setPhase] = useState<Phase>("video");
+  const [phase, setPhase] = useState<Phase>("boot");
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     const stored = localStorage.getItem("crimson-theme");
-    if (!stored || stored === "dark") {
+    const dark = !stored || stored === "dark";
+    setIsDark(dark);
+    if (dark) {
       document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
   }, []);
 
   // Random screen glitch (35-60s)
@@ -54,13 +65,13 @@ const Index = () => {
     return () => clearTimeout(timeout);
   }, [phase]);
 
-  if (phase === "video") {
-    return <VideoIntro onComplete={() => setPhase("boot")} />;
-  }
-
   if (phase === "boot") {
     return <BootScreen onComplete={() => setPhase("dashboard")} />;
   }
+
+  // Theme-aware cube colors
+  const cubeFaceColor = isDark ? "rgba(6, 0, 16, 0.9)" : "rgba(199, 241, 255, 0.85)";
+  const cubeBorderStyle = "1px solid rgba(63, 215, 255, 0.2)";
 
   return (
     <div className="min-h-screen w-full bg-background crt-flicker crt-screen relative">
@@ -71,8 +82,8 @@ const Index = () => {
           maxAngle={30}
           radius={3}
           duration={{ enter: 0.3, leave: 0.6 }}
-          borderStyle="1px solid rgba(63, 215, 255, 0.15)"
-          faceColor="rgba(6, 0, 16, 0.9)"
+          borderStyle={cubeBorderStyle}
+          faceColor={cubeFaceColor}
           rippleColor="#3fd7ff"
           rippleSpeed={2}
           autoAnimate={true}
@@ -90,7 +101,7 @@ const Index = () => {
 
       <div className="fixed inset-0 bg-radial-glow pointer-events-none z-[1]" />
 
-      <div id="main-dashboard" className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 space-y-6 pt-20">
+      <div id="main-dashboard" className="relative z-10 w-full max-w-6xl mx-auto px-6 py-6 space-y-8 pt-20">
 
         {/* GREET ICON - always optional */}
         <GreetIcon />
@@ -121,7 +132,7 @@ const Index = () => {
               {systemStatuses.map((item, i) => (
                 <div
                   key={item.name}
-                  className="stagger-item flex items-center justify-between border border-border bg-background/80 px-3 py-2 hover-shimmer backdrop-blur-sm"
+                  className="stagger-item flex items-center justify-between border border-border bg-background/80 px-4 py-3 hover-shimmer backdrop-blur-sm transition-all duration-300"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
                   <span className="font-terminal text-sm text-foreground">{item.name}</span>
@@ -178,29 +189,29 @@ const Index = () => {
         <ScrollReveal delay={150}>
           <div id="transmission-section">
             <PanelWrapper title="TRANSMISSION TERMINAL">
-              <div className="font-terminal text-sm space-y-2">
+              <div className="font-terminal text-sm space-y-3">
                 <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <ExternalLinkDialog href="https://github.com/yasftw">
-                    <div className="border border-border bg-background/80 p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer backdrop-blur-sm">
+                    <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
                       <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
                     </div>
                   </ExternalLinkDialog>
                   <ExternalLinkDialog href="https://linkedin.com/in/yasftw">
-                    <div className="border border-border bg-background/80 p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer backdrop-blur-sm">
+                    <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">LINKEDIN</div>
                       <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
                     </div>
                   </ExternalLinkDialog>
                   <ExternalLinkDialog href="#">
-                    <div className="border border-border bg-background/80 p-3 hover:border-primary hover:bg-accent transition-all text-center group hover-shimmer backdrop-blur-sm">
+                    <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
                       <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
                     </div>
                   </ExternalLinkDialog>
                 </div>
-                <div className="mt-3 text-xs text-muted-foreground border-t border-border pt-3">
+                <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-4">
                   <span className="blink-cursor">AWAITING TRANSMISSION INPUT</span>
                 </div>
               </div>
@@ -209,8 +220,8 @@ const Index = () => {
         </ScrollReveal>
 
         {/* Footer */}
-        <div className="text-center py-4 font-terminal text-xs text-muted-foreground border-t border-border">
-          CYBER ARCHIVE © 2026 — YASFTW — ALL SYSTEMS MONITORED
+        <div className="text-center py-6 font-terminal text-xs text-muted-foreground border-t border-border">
+          CYBER ARCHIVE © 2026 — Yashftw — ALL SYSTEMS MONITORED
         </div>
       </div>
     </div>
