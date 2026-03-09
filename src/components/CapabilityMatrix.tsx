@@ -42,9 +42,11 @@ const CapabilityMatrix = () => {
 
   const handleClick = (idx: number) => {
     if (expandedIdx === idx) {
+      playCloseSound();
       setExpandedIdx(null);
       return;
     }
+    playOpenSound();
     setLoadingIdx(idx);
     setTimeout(() => {
       setLoadingIdx(null);

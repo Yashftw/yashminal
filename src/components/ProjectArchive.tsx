@@ -91,7 +91,7 @@ const ProjectArchive = () => {
                 {selected.id} — DETAILS
               </span>
               <button
-                onClick={() => setSelected(null)}
+                onClick={() => { playCloseSound(); setSelected(null); }}
                 className="text-muted-foreground hover:text-primary text-sm interactive"
               >
                 ✕

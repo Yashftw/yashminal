@@ -10,6 +10,7 @@ const ContactPanel = () => {
 
   const handleSend = () => {
     if (!name.trim() || !email.trim() || !message.trim()) return;
+    playOpenSound();
     setSent(true);
     setTimeout(() => {
       setName("");

@@ -95,7 +95,7 @@ const CrimsonTerminal = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && input.trim() && processCommand(input)}
+            onKeyDown={(e) => { if (e.key === "Enter" && input.trim()) { playOpenSound(); processCommand(input); } }}
             placeholder="Enter command..."
             className="flex-1 bg-transparent font-terminal text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
