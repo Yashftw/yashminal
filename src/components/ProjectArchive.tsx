@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PanelWrapper from "./PanelWrapper";
+import { playOpenSound, playCloseSound } from "@/lib/sounds";
 
 interface Project {
   id: string;
@@ -62,7 +63,7 @@ const ProjectArchive = () => {
           {projects.map((project) => (
             <button
               key={project.id}
-              onClick={() => setSelected(project)}
+              onClick={() => { playOpenSound(); setSelected(project); }}
               className="interactive text-left border border-border bg-background p-3 hover:border-primary hover:bg-accent transition-all duration-200 group"
             >
               <div className="font-pixel text-[9px] text-muted-foreground mb-1 tracking-wider">
@@ -90,7 +91,7 @@ const ProjectArchive = () => {
                 {selected.id} — DETAILS
               </span>
               <button
-                onClick={() => setSelected(null)}
+                onClick={() => { playCloseSound(); setSelected(null); }}
                 className="text-muted-foreground hover:text-primary text-sm interactive"
               >
                 ✕

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PanelWrapper from "./PanelWrapper";
+import { playOpenSound } from "@/lib/sounds";
 
 const ContactPanel = () => {
   const [name, setName] = useState("");
@@ -9,6 +10,7 @@ const ContactPanel = () => {
 
   const handleSend = () => {
     if (!name.trim() || !email.trim() || !message.trim()) return;
+    playOpenSound();
     setSent(true);
     setTimeout(() => {
       setName("");

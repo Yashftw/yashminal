@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PanelWrapper from "./PanelWrapper";
+import { playOpenSound, playCloseSound } from "@/lib/sounds";
 
 interface Capability {
   name: string;
@@ -41,9 +42,11 @@ const CapabilityMatrix = () => {
 
   const handleClick = (idx: number) => {
     if (expandedIdx === idx) {
+      playCloseSound();
       setExpandedIdx(null);
       return;
     }
+    playOpenSound();
     setLoadingIdx(idx);
     setTimeout(() => {
       setLoadingIdx(null);
