@@ -192,7 +192,7 @@ const Index = () => {
               <div className="font-terminal text-sm space-y-3">
                 <div className="text-muted-foreground">▸ OUTBOUND CHANNELS:</div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <ExternalLinkDialog href="https://github.com/yasftw">
+                  <ExternalLinkDialog href="https://github.com/Yashftw">
                     <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">GITHUB</div>
                       <div className="text-xs text-foreground mt-1">SOURCE REPOSITORY</div>
