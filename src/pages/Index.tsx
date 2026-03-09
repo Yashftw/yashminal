@@ -204,12 +204,16 @@ const Index = () => {
                       <div className="text-xs text-foreground mt-1">PROFESSIONAL NETWORK</div>
                     </div>
                   </ExternalLinkDialog>
-                  <ExternalLinkDialog href="#">
+                  <a
+                    href="/Yashraj_Yadav_Resume.pdf"
+                    download
+                    className="interactive text-foreground hover:text-primary transition-colors"
+                  >
                     <div className="border border-border bg-background/80 p-4 hover:border-primary hover:bg-accent transition-all duration-300 text-center group hover-shimmer backdrop-blur-sm">
                       <div className="font-pixel text-[10px] text-muted-foreground group-hover:text-primary tracking-wider">RESUME</div>
                       <div className="text-xs text-foreground mt-1">ENCRYPTED DOSSIER</div>
                     </div>
-                  </ExternalLinkDialog>
+                  </a>
                 </div>
                 <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-4">
                   <span className="blink-cursor">AWAITING TRANSMISSION INPUT</span>
