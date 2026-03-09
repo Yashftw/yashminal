@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PanelWrapper from "./PanelWrapper";
+import { playOpenSound, playCloseSound } from "@/lib/sounds";
 
 interface Capability {
   name: string;
