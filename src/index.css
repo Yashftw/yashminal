@@ -439,3 +439,47 @@
   height: 100%;
   aspect-ratio: auto;
 }
+
+/* Boot screen effects */
+.boot-scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+@keyframes boot-glitch {
+  0%, 100% { transform: translate(0); filter: brightness(1); }
+  20% { transform: translate(-3px, 1px); filter: brightness(1.2); }
+  40% { transform: translate(2px, -1px); filter: brightness(0.9); }
+  60% { transform: translate(-1px, 2px); filter: brightness(1.1); }
+  80% { transform: translate(1px, -2px); filter: brightness(0.95); }
+}
+
+.boot-glitch {
+  animation: boot-glitch 0.15s ease-in-out;
+}
+
+.boot-line {
+  animation: scrollFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes shimmer-move {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  animation: shimmer-move 1.5s linear infinite;
+}
+
+.glitch-text {
+  animation: glitch-text 0.1s ease-in-out;
+}
